@@ -1,0 +1,27 @@
+{
+  "name": "@rte/integration-tests",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@rte/browser": "workspace:*",
+    "@rte/core": "workspace:*",
+    "@rte/plugin-basic-blocks": "workspace:*",
+    "@rte/plugin-basic-marks": "workspace:*",
+    "@rte/plugin-code-block": "workspace:*",
+    "@rte/plugin-history": "workspace:*",
+    "@rte/plugin-image": "workspace:*",
+    "@rte/plugin-link": "workspace:*",
+    "@rte/plugin-lists": "workspace:*",
+    "@rte/react": "workspace:*",
+    "@rte/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.7.2"
+  }
+}

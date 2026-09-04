@@ -1,0 +1,32 @@
+{
+  "name": "basic-editor-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@rte/core": "workspace:*",
+    "@rte/plugin-basic-blocks": "workspace:*",
+    "@rte/plugin-basic-marks": "workspace:*",
+    "@rte/plugin-code-block": "workspace:*",
+    "@rte/plugin-history": "workspace:*",
+    "@rte/plugin-image": "workspace:*",
+    "@rte/plugin-link": "workspace:*",
+    "@rte/plugin-lists": "workspace:*",
+    "@rte/react": "workspace:*",
+    "@rte/ui": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5"
+  }
+}

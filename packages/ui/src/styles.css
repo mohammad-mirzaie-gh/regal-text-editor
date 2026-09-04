@@ -1,0 +1,496 @@
+/* Default theme for the editor UI (Notion/Linear-inspired: soft neutral
+   surfaces, one refined accent color, shadow-based elevation instead of
+   hard borders, generous spacing). Everything is driven by CSS custom
+   properties (section 97) so a host app can override the look without
+   touching these rules — redefine the variables on any ancestor selector,
+   or opt into one of the alternate presets below via `data-rte-theme` on
+   an ancestor (e.g. `data-rte-theme="notion"` or `data-rte-theme="midnight"`)
+   to see the same components restyled end to end. */
+:root {
+  --editor-bg: #ffffff;
+  --editor-text: #1c1c1f;
+  --editor-text-secondary: #74747e;
+  --editor-border: #e7e7e4;
+  --editor-toolbar-bg: #fbfbfa;
+  --editor-hover: rgba(28, 28, 31, 0.06);
+  --editor-active: rgba(99, 102, 241, 0.12);
+  --editor-active-text: #4f46e5;
+  --editor-selection: rgba(99, 102, 241, 0.18);
+  --editor-placeholder: #9c9ca3;
+  --editor-code-bg: #f4f4f2;
+  --editor-quote-border: #d8d8d9;
+  --editor-radius: 12px;
+  --editor-radius-sm: 8px;
+  --editor-shadow: 0 1px 2px rgba(20, 20, 25, 0.04), 0 10px 28px rgba(20, 20, 25, 0.07);
+  --editor-focus-ring: rgba(99, 102, 241, 0.35);
+  --editor-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --editor-mono-font: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --editor-bg: #1a1a1e;
+    --editor-text: #eeeef0;
+    --editor-text-secondary: #96969e;
+    --editor-border: #2c2c31;
+    --editor-toolbar-bg: #212126;
+    --editor-hover: rgba(255, 255, 255, 0.07);
+    --editor-active: rgba(139, 143, 251, 0.18);
+    --editor-active-text: #a3a8ff;
+    --editor-selection: rgba(139, 143, 251, 0.3);
+    --editor-placeholder: #7c7c85;
+    --editor-code-bg: #232328;
+    --editor-quote-border: #3a3a40;
+    --editor-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.5);
+    --editor-focus-ring: rgba(139, 143, 251, 0.4);
+  }
+}
+
+/* Warm, paper-like preset — put `data-rte-theme="notion"` on any ancestor. */
+[data-rte-theme="notion"] {
+  --editor-bg: #fffef9;
+  --editor-text: #2b2925;
+  --editor-text-secondary: #8a8578;
+  --editor-border: #e9e5d8;
+  --editor-toolbar-bg: #faf8f0;
+  --editor-hover: rgba(43, 41, 37, 0.06);
+  --editor-active: rgba(202, 103, 2, 0.14);
+  --editor-active-text: #ca6702;
+  --editor-selection: rgba(202, 103, 2, 0.18);
+  --editor-placeholder: #a39d8c;
+  --editor-code-bg: #f1ece0;
+  --editor-quote-border: #ddd6c2;
+  --editor-focus-ring: rgba(202, 103, 2, 0.3);
+}
+
+/* Deep, moody preset that stays dark regardless of system setting — put
+   `data-rte-theme="midnight"` on any ancestor. */
+[data-rte-theme="midnight"] {
+  --editor-bg: #14121c;
+  --editor-text: #eae7f5;
+  --editor-text-secondary: #938fae;
+  --editor-border: #2c2740;
+  --editor-toolbar-bg: #1a1728;
+  --editor-hover: rgba(234, 231, 245, 0.07);
+  --editor-active: rgba(196, 141, 255, 0.18);
+  --editor-active-text: #c48dff;
+  --editor-selection: rgba(196, 141, 255, 0.3);
+  --editor-placeholder: #726d8c;
+  --editor-code-bg: #201c30;
+  --editor-quote-border: #3a3452;
+  --editor-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 16px 36px rgba(10, 5, 25, 0.55);
+  --editor-focus-ring: rgba(196, 141, 255, 0.4);
+}
+
+/* Scoped, not a global `*` reset — this stylesheet has no wrapper element
+   of its own to contain a reset to, and a host app's own unrelated
+   elements must never be affected by importing it. */
+.rte-toolbar,
+.rte-toolbar *,
+[data-rte-editable-root],
+.rte-link-popover,
+.rte-link-popover *,
+.rte-find-replace,
+.rte-find-replace * {
+  box-sizing: border-box;
+}
+
+.rte-toolbar-grow {
+  flex: 1;
+}
+
+.rte-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 8px;
+  background: var(--editor-toolbar-bg);
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius);
+  box-shadow: var(--editor-shadow);
+  font-family: var(--editor-font);
+}
+
+.rte-toolbar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--editor-radius-sm);
+  background: transparent;
+  color: var(--editor-text);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.rte-toolbar-button:hover:not(:disabled) {
+  background: var(--editor-hover);
+}
+
+.rte-toolbar-button[data-active="true"] {
+  background: var(--editor-active);
+  color: var(--editor-active-text);
+}
+
+.rte-toolbar-button[data-active="mixed"] {
+  background: var(--editor-active);
+  color: var(--editor-active-text);
+  opacity: 0.7;
+}
+
+.rte-toolbar-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.rte-toolbar-button:focus-visible,
+.rte-toolbar-dropdown:focus-visible,
+.rte-link-popover-input:focus-visible,
+.rte-find-replace-input:focus-visible {
+  outline: 2px solid var(--editor-active-text);
+  outline-offset: 1px;
+}
+
+.rte-toolbar-separator {
+  width: 1px;
+  height: 22px;
+  margin: 0 6px;
+  background: var(--editor-border);
+}
+
+/* Editable content surface — visually fused to the toolbar directly above
+   it (shared border color, zero gap, matching radius on the touching
+   corners only) so the two read as one card rather than stacked boxes. */
+[data-rte-editable-root] {
+  min-height: 220px;
+  padding: 22px 26px;
+  background: var(--editor-bg);
+  color: var(--editor-text);
+  border: 1px solid var(--editor-border);
+  border-top: none;
+  border-radius: 0 0 var(--editor-radius) var(--editor-radius);
+  box-shadow: var(--editor-shadow);
+  font-family: var(--editor-font);
+  font-size: 16px;
+  line-height: 1.75;
+  outline: none;
+  transition: box-shadow 120ms ease;
+}
+
+[data-rte-editable-root]:focus {
+  box-shadow: var(--editor-shadow), 0 0 0 3px var(--editor-focus-ring);
+}
+
+[data-rte-editable-root][contenteditable="false"] {
+  background: var(--editor-hover);
+  color: var(--editor-text-secondary);
+}
+
+[data-rte-editable-root][data-is-empty="true"]::before {
+  content: attr(data-placeholder);
+  color: var(--editor-placeholder);
+  pointer-events: none;
+  float: left;
+  height: 0;
+  animation: rte-placeholder-in 180ms ease;
+}
+
+@keyframes rte-placeholder-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+[data-rte-editable-root] ::selection {
+  background: var(--editor-selection);
+}
+
+[data-rte-editable-root] p {
+  margin: 0 0 0.75em;
+}
+
+[data-rte-editable-root] h1,
+[data-rte-editable-root] h2,
+[data-rte-editable-root] h3,
+[data-rte-editable-root] h4,
+[data-rte-editable-root] h5,
+[data-rte-editable-root] h6 {
+  margin: 1em 0 0.4em;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+[data-rte-editable-root] h1 { font-size: 1.85em; }
+[data-rte-editable-root] h2 { font-size: 1.5em; }
+[data-rte-editable-root] h3 { font-size: 1.25em; }
+
+[data-rte-editable-root] blockquote {
+  margin: 0.7em 0;
+  padding: 0.15em 0 0.15em 1em;
+  border-inline-start: 3px solid var(--editor-quote-border);
+  color: var(--editor-text-secondary);
+  font-style: italic;
+}
+
+[data-rte-editable-root] ul,
+[data-rte-editable-root] ol {
+  margin: 0.4em 0;
+  padding-inline-start: 1.5em;
+}
+
+[data-rte-editable-root] li {
+  margin: 0.25em 0;
+}
+
+[data-rte-editable-root] li[data-checked] {
+  list-style: none;
+  margin-inline-start: -1.5em;
+  padding-inline-start: 1.5em;
+  position: relative;
+}
+
+[data-rte-editable-root] li[data-checked]::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.3em;
+  width: 0.9em;
+  height: 0.9em;
+  border: 1.5px solid var(--editor-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70%;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+[data-rte-editable-root] li[data-checked="true"]::before {
+  background-color: var(--editor-active-text);
+  border-color: var(--editor-active-text);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.5l3 3 7-7'/%3E%3C/svg%3E");
+}
+
+[data-rte-editable-root] li[data-checked="true"] {
+  text-decoration: line-through;
+  color: var(--editor-text-secondary);
+}
+
+[data-rte-editable-root] code {
+  background: var(--editor-code-bg);
+  border-radius: 5px;
+  padding: 0.15em 0.4em;
+  font-family: var(--editor-mono-font);
+  font-size: 0.87em;
+}
+
+[data-rte-editable-root] hr {
+  border: none;
+  border-top: 1px solid var(--editor-border);
+  margin: 1.5em 0;
+}
+
+[data-rte-editable-root] strong { font-weight: 700; }
+[data-rte-editable-root] em { font-style: italic; }
+[data-rte-editable-root] u { text-decoration: underline; }
+[data-rte-editable-root] s { text-decoration: line-through; }
+
+[data-rte-editable-root] a {
+  color: var(--editor-active-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+[data-rte-editable-root] img {
+  display: block;
+  max-width: 100%;
+  border-radius: var(--editor-radius-sm);
+  margin: 0.8em 0;
+}
+
+[data-rte-editable-root] pre {
+  margin: 0.8em 0;
+  padding: 0.9em 1.05em;
+  background: var(--editor-code-bg);
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-sm);
+  overflow-x: auto;
+}
+
+[data-rte-editable-root] pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.85em;
+  line-height: 1.55;
+}
+
+/* Toolbar dropdown (block style / text align) — `appearance: none` plus a
+   pure-CSS chevron (two rotated gradient triangles, no image asset) so it
+   reads as part of the toolbar instead of a bare OS control, the single
+   biggest "looks unfinished" cue a default `<select>` gives off. */
+.rte-toolbar-dropdown {
+  appearance: none;
+  height: 32px;
+  padding: 0 22px 0 10px;
+  border: 1px solid transparent;
+  border-radius: var(--editor-radius-sm);
+  background-color: transparent;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--editor-text-secondary) 50%),
+    linear-gradient(135deg, var(--editor-text-secondary) 50%, transparent 50%);
+  background-position: right 10px top 55%, right 6px top 55%;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  color: var(--editor-text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.rte-toolbar-dropdown:hover:not(:disabled) {
+  background-color: var(--editor-hover);
+}
+
+.rte-toolbar-dropdown:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Bubble (selection-following) toolbar */
+.rte-bubble-toolbar {
+  transform: translate(-50%, calc(-100% - 10px));
+  z-index: 20;
+  animation: rte-bubble-in 100ms ease;
+}
+
+@keyframes rte-bubble-in {
+  from { opacity: 0; transform: translate(-50%, calc(-100% - 4px)); }
+  to { opacity: 1; transform: translate(-50%, calc(-100% - 10px)); }
+}
+
+/* Link / image insert popovers */
+.rte-link-control {
+  position: relative;
+  display: inline-flex;
+}
+
+.rte-link-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  background: var(--editor-toolbar-bg);
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius);
+  box-shadow: var(--editor-shadow);
+  animation: rte-bubble-in 100ms ease;
+}
+
+.rte-link-popover-input {
+  width: 220px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-sm);
+  background: var(--editor-bg);
+  color: var(--editor-text);
+  font-size: 13px;
+}
+
+.rte-link-popover-action {
+  height: 30px;
+  padding: 0 12px;
+  border: none;
+  border-radius: var(--editor-radius-sm);
+  background: var(--editor-active);
+  color: var(--editor-active-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: filter 120ms ease;
+}
+
+.rte-link-popover-action:hover {
+  filter: brightness(0.95);
+}
+
+/* Find & replace */
+.rte-find-replace {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  background: var(--editor-toolbar-bg);
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius);
+  box-shadow: var(--editor-shadow);
+  font-family: var(--editor-font);
+}
+
+.rte-find-replace-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rte-find-replace-input {
+  flex: 1;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-sm);
+  background: var(--editor-bg);
+  color: var(--editor-text);
+  font-size: 13px;
+  min-width: 0;
+}
+
+.rte-find-replace-count {
+  min-width: 44px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--editor-text-secondary);
+}
+
+.rte-find-replace-check {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--editor-text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.rte-find-replace-text-button {
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius-sm);
+  background: transparent;
+  color: var(--editor-text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 120ms ease;
+}
+
+.rte-find-replace-text-button:hover:not(:disabled) {
+  background: var(--editor-hover);
+}
+
+.rte-find-replace-text-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

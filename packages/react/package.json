@@ -1,0 +1,43 @@
+{
+  "name": "@rte/react",
+  "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "description": "React bindings for the editor engine: <RichTextEditor>, useEditor, useEditorSelector, useCommand.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --sourcemap --clean --external react --external react-dom",
+    "dev": "tsup src/index.ts --format esm --dts --sourcemap --watch --external react --external react-dom"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@rte/browser": "workspace:*",
+    "@rte/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  }
+}
