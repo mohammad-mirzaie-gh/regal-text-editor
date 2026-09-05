@@ -556,3 +556,94 @@
   opacity: 0.35;
   cursor: not-allowed;
 }
+
+/*
+ * Small-viewport handling. `.rte-toolbar` itself is the toolbar's only DOM
+ * node (section 56), so turning on `overflow-x: auto` here directly — no
+ * wrapper element needed — makes it a horizontally-scrollable strip instead
+ * of wrapping into a many-row-tall column once its items no longer fit one
+ * line. The floating panels (dropdown menu, link/image popover) are each
+ * positioned purely relative to their own trigger with a bare `left`/`top`
+ * and no viewport-collision handling, so whichever one isn't flush against
+ * the left edge of a narrow screen would otherwise run off it; pinning them
+ * to the viewport as a centered sheet keeps them fully reachable regardless
+ * of where their trigger ends up in the scrolled toolbar. The bubble
+ * toolbar has the same off-screen risk but, unlike the other two, no fixed
+ * anchor point CSS can clamp it against (it follows the text selection);
+ * since the main toolbar is always one scroll away at this width, it's
+ * simpler and more reliable to hide it here than to leave it able to run
+ * off-screen. 860px is where an unwrapped toolbar of the default item set
+ * (roughly 700px) first stops fitting one row, so this already applies at
+ * tablet widths, not just phone widths.
+ */
+@media (max-width: 860px) {
+  .rte-toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .rte-toolbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rte-toolbar-button,
+  .rte-toolbar-dropdown,
+  .rte-toolbar-separator,
+  .rte-link-control {
+    flex-shrink: 0;
+  }
+
+  /* Bigger touch targets now that the toolbar is finger-scrolled rather
+     than mouse-hovered. */
+  .rte-toolbar-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rte-toolbar-dropdown-trigger {
+    height: 40px;
+  }
+
+  .rte-bubble-toolbar {
+    display: none;
+  }
+
+  /* Link/image insert popover + the style/align dropdown menu: pin them to
+     the viewport as a centered sheet so they stay fully reachable
+     regardless of where their trigger sits in the scrolled toolbar. */
+  .rte-link-popover,
+  .rte-toolbar-dropdown-menu {
+    position: fixed;
+    left: 50%;
+    top: auto;
+    bottom: 16px;
+    transform: translateX(-50%);
+    width: min(92vw, 340px);
+    max-width: 92vw;
+    flex-wrap: wrap;
+  }
+
+  .rte-link-popover-input {
+    width: auto;
+    flex: 1 1 140px;
+  }
+
+  /* Find & replace: let each row's input claim the full row width so the
+     count/nav/checkbox/close controls drop to their own line instead of
+     being squeezed into slivers next to it. */
+  .rte-find-replace-row {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .rte-find-replace-input {
+    flex: 1 1 100%;
+  }
+
+  [data-rte-editable-root] {
+    padding: 16px;
+    min-height: 180px;
+  }
+}
