@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "noEmit": true,
-    "module": "ESNext",
-    "types": ["vite/client"]
-  },
-  "include": ["src"]
-}

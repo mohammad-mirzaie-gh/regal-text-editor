@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createBaseSchema } from "../schema/defaults";
 import { Editor } from "../editor";
 import { insertTextAtSelection } from "../transforms/insert-text";
@@ -104,5 +104,147 @@ describe("Editor", () => {
     insertTextAtSelection(tx, editor.schema, range, "hi");
     editor.dispatch(tx);
     expect(editor.getText()).toBe("");
+  });
+
+  it("parses initialHTML into the starting document", () => {
+    const editor = new Editor({ schema: createBaseSchema(), plugins: [paragraphHtmlPlugin], initialHTML: "<p>hi</p>" });
+    expect(editor.getText()).toBe("hi");
+  });
+
+  it("logs to console.error by default when a dispatched transaction's selection can't be clamped", () => {
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    try {
+      const editor = new Editor({ schema: createBaseSchema() });
+      const tx = editor.createTransaction();
+      tx.setSelection(cursor({ path: [99, 99], offset: 0 }));
+      editor.dispatch(tx);
+      expect(spy).toHaveBeenCalledWith("[editor] plugin/command error", expect.anything());
+      expect(editor.getSelection()).toBeNull();
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it("routes errors to a custom onError handler instead of console.error", () => {
+    const onError = vi.fn();
+    const editor = new Editor({ schema: createBaseSchema(), onError });
+    const tx = editor.createTransaction();
+    tx.setSelection(cursor({ path: [99, 99], offset: 0 }));
+    editor.dispatch(tx);
+    expect(onError).toHaveBeenCalledTimes(1);
+  });
+
+  it("invokes plugin onInit and onDestroy lifecycle hooks", () => {
+    const onInit = vi.fn();
+    const onDestroy = vi.fn();
+    const plugin: Plugin = { name: "lifecycle-test", onInit, onDestroy };
+    const editor = new Editor({ schema: createBaseSchema(), plugins: [plugin] });
+    expect(onInit).toHaveBeenCalledWith(editor);
+    editor.destroy();
+    expect(onDestroy).toHaveBeenCalledWith(editor);
+  });
+
+  it("destroy() is idempotent, clears listeners, and stops delivering events", () => {
+    const editor = new Editor({ schema: createBaseSchema() });
+    const listener = vi.fn();
+    editor.on("change", listener);
+    editor.destroy();
+    expect(() => editor.destroy()).not.toThrow();
+
+    const tx = editor.createTransaction();
+    const range = normalizeSelection(cursor({ path: [0, 0], offset: 0 }));
+    insertTextAtSelection(tx, editor.schema, range, "hi");
+    editor.dispatch(tx);
+    expect(listener).not.toHaveBeenCalled();
+  });
+
+  it("on() returns an unsubscribe function", () => {
+    const editor = new Editor({ schema: createBaseSchema() });
+    const listener = vi.fn();
+    const off = editor.on("change", listener);
+    off();
+    const tx = editor.createTransaction();
+    const range = normalizeSelection(cursor({ path: [0, 0], offset: 0 }));
+    insertTextAtSelection(tx, editor.schema, range, "hi");
+    editor.dispatch(tx);
+    expect(listener).not.toHaveBeenCalled();
+  });
+
+  it("subscribe() fires on document changes and unsubscribes cleanly", () => {
+    const editor = new Editor({ schema: createBaseSchema() });
+    const listener = vi.fn();
+    const unsubscribe = editor.subscribe(listener);
+    const tx = editor.createTransaction();
+    const range = normalizeSelection(cursor({ path: [0, 0], offset: 0 }));
+    insertTextAtSelection(tx, editor.schema, range, "hi");
+    editor.dispatch(tx);
+    expect(listener).toHaveBeenCalled();
+
+    unsubscribe();
+    listener.mockClear();
+    const tx2 = editor.createTransaction();
+    const range2 = normalizeSelection(cursor({ path: [0, 0], offset: 2 }));
+    insertTextAtSelection(tx2, editor.schema, range2, "!");
+    editor.dispatch(tx2);
+    expect(listener).not.toHaveBeenCalled();
+  });
+
+  it("tracks focus state via focus()/blur()/isFocused() and setFocused()", () => {
+    const editor = new Editor({ schema: createBaseSchema() });
+    expect(editor.isFocused()).toBe(false);
+    const onFocus = vi.fn();
+    const onBlur = vi.fn();
+    editor.on("focus", onFocus);
+    editor.on("blur", onBlur);
+    editor.focus();
+    expect(onFocus).toHaveBeenCalled();
+    editor.blur();
+    expect(onBlur).toHaveBeenCalled();
+
+    editor.setFocused(true);
+    expect(editor.isFocused()).toBe(true);
+  });
+
+  it("isDirty() reflects whether there is undo history", () => {
+    const editor = new Editor({ schema: createBaseSchema() });
+    expect(editor.isDirty()).toBe(false);
+    const tx = editor.createTransaction();
+    const range = normalizeSelection(cursor({ path: [0, 0], offset: 0 }));
+    insertTextAtSelection(tx, editor.schema, range, "hi");
+    editor.dispatch(tx);
+    expect(editor.isDirty()).toBe(true);
+  });
+
+  it("validate() delegates to the schema", () => {
+    const editor = new Editor({ schema: createBaseSchema() });
+    expect(editor.validate()).toEqual([]);
+  });
+
+  it("getMarkdown() renders via plugin-registered Markdown serializers", () => {
+    const markdownPlugin: Plugin = { name: "test-paragraph-md", markdownSerializers: { paragraph: (_node, children) => children.join("") } };
+    const editor = new Editor({ schema: createBaseSchema(), plugins: [markdownPlugin] });
+    const tx = editor.createTransaction();
+    const range = normalizeSelection(cursor({ path: [0, 0], offset: 0 }));
+    insertTextAtSelection(tx, editor.schema, range, "hi");
+    editor.dispatch(tx);
+    expect(editor.getMarkdown()).toBe("hi");
+  });
+
+  it("setStoredMarks() notifies subscribers even though it doesn't touch doc/selection", () => {
+    const editor = new Editor({ schema: createBaseSchema() });
+    const listener = vi.fn();
+    editor.subscribe(listener);
+    editor.setStoredMarks([{ type: "bold", attrs: {} }]);
+    expect(listener).toHaveBeenCalled();
+    expect(editor.getStoredMarks()).toEqual([{ type: "bold", attrs: {} }]);
+  });
+
+  it("setEditable() notifies subscribers", () => {
+    const editor = new Editor({ schema: createBaseSchema() });
+    const listener = vi.fn();
+    editor.subscribe(listener);
+    editor.setEditable(false);
+    expect(listener).toHaveBeenCalled();
+    expect(editor.editable).toBe(false);
   });
 });

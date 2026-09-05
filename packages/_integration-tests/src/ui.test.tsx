@@ -42,15 +42,60 @@ describe("<ToolbarDropdown>", () => {
       );
     });
 
-    const dropdown = screen.getByLabelText("Paragraph style") as HTMLSelectElement;
-    expect(dropdown.value).toBe("0"); // Paragraph is active on a fresh paragraph
+    const trigger = screen.getByRole("button", { name: "Paragraph style" });
+    expect(trigger.getAttribute("data-active")).toBe("true"); // Paragraph is active on a fresh paragraph
 
     act(() => {
-      fireEvent.change(dropdown, { target: { value: "1" } }); // Heading 1
+      fireEvent.click(trigger);
+    });
+    act(() => {
+      fireEvent.click(screen.getByRole("menuitemradio", { name: "Heading 1" }));
     });
 
     expect(capturedEditor!.getHTML()).toBe("<h1>hello</h1>");
-    expect(dropdown.value).toBe("1");
+    expect(trigger.getAttribute("data-active")).toBe("true");
+    expect(trigger.getAttribute("title")).toBe("Heading 1");
+  });
+
+  it("closes when focus leaves the control and supports arrow-key navigation", () => {
+    render(
+      <Harness>
+        {(editor) => (
+          <>
+            <Toolbar items={defaultToolbarItems} />
+            <RichTextEditor editor={editor} />
+          </>
+        )}
+      </Harness>
+    );
+
+    // The align options only become executable once there's a selection.
+    act(() => {
+      screen.getByRole("textbox").dispatchEvent(
+        new InputEvent("beforeinput", { inputType: "insertText", data: "hello", cancelable: true, bubbles: true })
+      );
+    });
+
+    const trigger = screen.getByRole("button", { name: "Text align" });
+    act(() => {
+      fireEvent.click(trigger);
+    });
+    expect(screen.getByRole("menu", { name: "Text align" })).toBeTruthy();
+
+    const first = screen.getByRole("menuitemradio", { name: "Align start" });
+    expect(document.activeElement).toBe(first);
+
+    act(() => {
+      fireEvent.keyDown(first, { key: "ArrowDown" });
+    });
+    const second = screen.getByRole("menuitemradio", { name: "Align center" });
+    expect(document.activeElement).toBe(second);
+
+    act(() => {
+      fireEvent.keyDown(second, { key: "Escape" });
+    });
+    expect(screen.queryByRole("menu", { name: "Text align" })).toBeNull();
+    expect(document.activeElement).toBe(trigger);
   });
 });
 

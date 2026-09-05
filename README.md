@@ -1,4 +1,4 @@
-# Rich Text Editor
+# Regal Text Editor
 
 A framework-independent rich text editing engine, a browser DOM adapter, a React binding, a plugin system, and a default toolbar UI — built as a pnpm monorepo of small, independently publishable packages.
 
@@ -6,7 +6,7 @@ This is **not** a wrapper around ProseMirror/Slate/Lexical/TipTap/CKEditor. The 
 
 ## Status
 
-This is a working foundation covering phases 1–10 of the project plan (core engine → transactions/selection/commands → browser adapter → basic formatting → lists/headings/blockquotes → toolbar UI) plus a second pass adding links, images, code blocks, find & replace, and a richer UI layer (dropdowns, a selection-following bubble toolbar, link/image popovers), backed by 87 passing tests (unit tests for the model/schema/transforms/search plus jsdom integration tests that exercise real keyboard, IME composition, clipboard, selection-mapping, and React/UI behavior end to end). It is **not** a complete implementation of every feature described in the original brief — see [Self-audit](#self-audit) below for an honest, per-category breakdown of what's implemented, partial, or not started. Treat this as a solid, tested base to keep building on rather than a finished product.
+This is a working foundation covering phases 1–10 of the project plan (core engine → transactions/selection/commands → browser adapter → basic formatting → lists/headings/blockquotes → toolbar UI) plus a second pass adding links, images, code blocks, find & replace, and a richer UI layer (dropdowns, a selection-following bubble toolbar, link/image popovers), backed by 462 passing tests across 35 test files at ~93% statement coverage (dedicated unit tests for every package — core's model/schema/transforms/search/serialization/parsing, the browser adapter, every plugin, the React binding, and the `@rte/ui` components — plus jsdom integration tests that exercise real keyboard, IME composition, clipboard, selection-mapping, and React/UI behavior end to end). It is **not** a complete implementation of every feature described in the original brief — see [Self-audit](#self-audit) below for an honest, per-category breakdown of what's implemented, partial, or not started. Treat this as a solid, tested base to keep building on rather than a finished product.
 
 ## Architecture
 
@@ -34,8 +34,6 @@ packages/
   plugin-history/        Layer 4 — undo/redo commands and shortcuts.
   _integration-tests/    Private package exercising the full stack together
                           (core + all plugins + browser adapter + React binding).
-examples/
-  basic-editor-example/  A working Vite + React demo app.
 ```
 
 Every package other than `core` and `browser` is optional — `core` never imports React or touches the DOM, `browser` never imports React, and `ui` only reaches the engine through `@rte/react`'s public hooks. A consumer can use the engine completely headless (`new Editor({...})`, no UI at all), pair it with a custom DOM adapter, or use the provided React binding and swap the toolbar for a custom one.
@@ -46,7 +44,6 @@ Every package other than `core` and `browser` is optional — `core` never impor
 pnpm install
 pnpm -r --filter=./packages/** run build   # build every package (tsup, ESM + .d.ts)
 pnpm test                                   # run the full test suite (vitest, jsdom)
-pnpm dev:example                            # run the example app (Vite dev server)
 ```
 
 Each package builds independently with `tsup` to ESM + type declarations (`pnpm --filter @rte/core run build`, etc). There is no CommonJS output — this is an ESM-only set of packages, per the "avoid unnecessary CJS" guidance.
@@ -158,7 +155,7 @@ Honest status per category (IMPLEMENTED / PARTIALLY IMPLEMENTED / NOT IMPLEMENTE
 | Slash commands / command palette | NOT IMPLEMENTED | |
 | Table of contents / auto-linking / smart typography / spellcheck integration | NOT IMPLEMENTED | (`spellcheck` is enabled on the editable root, which is the one integration point that exists.) |
 | React integration | IMPLEMENTED | Controlled+uncontrolled, stable editor identity across re-renders, granular `useSyncExternalStore`-based subscriptions. |
-| Testing | IMPLEMENTED for what exists | 87 tests: core unit tests (model/schema/transforms/normalization/history/editor/search), jsdom integration tests for the full plugin stack, the browser adapter (keyboard/composition/clipboard/selection), the React binding, and the `@rte/ui` components (dropdown, link popover, find/replace). No Playwright/real-browser suite, no fuzz testing, no accessibility-automation run. |
+| Testing | IMPLEMENTED for what exists | 462 tests across 35 files, ~93% statement coverage: dedicated unit tests per package (core's model/schema/content-matcher/transforms/normalization/history/editor/search/serialization/parsing/sanitize, every plugin, the browser adapter's positions/shortcuts/paste, the React hooks, the `@rte/ui` components), plus jsdom integration tests for the full plugin stack, real keyboard/IME/clipboard/selection behavior, and React/UI end-to-end flows. No Playwright/real-browser suite, no fuzz testing, no accessibility-automation run. |
 | Documentation | PARTIALLY | This README plus inline doc-comments on every public function/class; no generated API reference site, no per-package README. |
 
 ## Known architectural simplifications (by design, not oversights)

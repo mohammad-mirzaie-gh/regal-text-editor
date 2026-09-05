@@ -1,6 +1,7 @@
 import { lastTextEntry } from "../model/node";
 import type { ElementNode } from "../model/types";
-import type { Point } from "../position/point";
+import { blockTextOffset, pointFromBlockTextOffset, type Point } from "../position/point";
+import { normalizeDocument } from "../normalization/normalize";
 import type { NormalizedRange } from "../selection/selection";
 import type { Schema } from "../schema/schema";
 import type { Transaction } from "../transaction/transaction";
@@ -28,9 +29,10 @@ export function insertBlocksAtSelection(
 
   if (singleTextBlock) {
     const inlineChildren = blocks[0]!.children;
+    const blockPath = point.path.slice(0, -1);
     tx.splitText(point.path, point.offset);
     const leafIndex = point.path[point.path.length - 1] as number;
-    const leafParent = point.path.slice(0, -1);
+    const leafParent = blockPath;
     let insertAt = leafIndex + 1;
     for (const child of inlineChildren) {
       tx.insertNode([...leafParent, insertAt], child);
@@ -38,7 +40,17 @@ export function insertBlocksAtSelection(
     }
     const last = inlineChildren[inlineChildren.length - 1];
     if (!last) return point;
-    return { path: [...leafParent, insertAt - 1], offset: last.object === "text" ? last.text.length : 0 };
+    const rawResult: Point = { path: [...leafParent, insertAt - 1], offset: last.object === "text" ? last.text.length : 0 };
+    // A newly inserted plain leaf can end up adjacent to a leaf carrying the
+    // same marks (the extremely common "paste plain text into plain text"
+    // case), which normalizeDocument merges away during dispatch — after
+    // rawResult's leaf index was already computed. Re-express the point as a
+    // block-relative text offset (stable across that merge) and resolve it
+    // against a normalized doc so the selection restored after dispatch
+    // still lands in the right place instead of failing to clamp.
+    const targetOffset = blockTextOffset(tx.doc, blockPath, rawResult);
+    const normalized = normalizeDocument(schema, tx.doc);
+    return pointFromBlockTextOffset(normalized, blockPath, targetOffset);
   }
 
   const split = splitBlock(tx, schema, point);

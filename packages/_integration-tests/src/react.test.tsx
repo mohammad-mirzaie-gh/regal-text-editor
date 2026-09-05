@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 import { render, screen, cleanup, act, fireEvent } from "@testing-library/react";
 import { createRef, StrictMode } from "react";
 import { createBaseSchema, type EditorDocument } from "@rte/core";
-import { EditorProvider, RichTextEditor, useEditor, type EditorHandle } from "@rte/react";
+import { EditorProvider, RichTextEditor, useEditor, useEditorContext, type EditorHandle } from "@rte/react";
 import { Toolbar, defaultToolbarItems } from "@rte/ui";
 import { BasicMarksPlugin } from "@rte/plugin-basic-marks";
 import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
@@ -125,5 +125,64 @@ describe("<RichTextEditor>", () => {
     // mutating the document — assert the button itself reflects that state
     // rather than the (unchanged) HTML.
     expect(boldButton.getAttribute("aria-pressed")).toBe("true");
+  });
+
+  it("builds its own owned Editor from schema/plugins/history/onError/defaultValue/editable when no external editor is given", () => {
+    const onError = vi.fn();
+    const defaultValue: EditorDocument = {
+      object: "document",
+      id: "d2",
+      children: [{ object: "element", id: "b2", type: "paragraph", attrs: {}, children: [{ object: "text", text: "seeded", marks: [] }] }]
+    };
+    const ref = createRef<EditorHandle>();
+    render(
+      <RichTextEditor
+        ref={ref}
+        schema={createBaseSchema()}
+        plugins={[BasicBlocksPlugin()]}
+        history={{ typingDelay: 1 }}
+        onError={onError}
+        defaultValue={defaultValue}
+        editable={false}
+      />
+    );
+    expect(ref.current?.getText()).toBe("seeded");
+    expect(screen.getByRole("textbox").getAttribute("contenteditable")).toBe("false");
+  });
+
+  it("applies an explicit editable prop change after mount", () => {
+    const ref = createRef<EditorHandle>();
+    const { rerender } = render(
+      <RichTextEditor ref={ref} schema={createBaseSchema()} plugins={[BasicBlocksPlugin()]} editable={true} />
+    );
+    expect(screen.getByRole("textbox").getAttribute("contenteditable")).toBe("true");
+    rerender(<RichTextEditor ref={ref} schema={createBaseSchema()} plugins={[BasicBlocksPlugin()]} editable={false} />);
+    expect(ref.current?.editor.editable).toBe(false);
+  });
+
+  it("exposes focus/blur/getMarkdown through the imperative handle", () => {
+    const ref = createRef<EditorHandle>();
+    render(<RichTextEditor ref={ref} schema={createBaseSchema()} plugins={[BasicBlocksPlugin()]} />);
+    act(() => ref.current?.focus());
+    expect(document.activeElement).toBe(screen.getByRole("textbox"));
+    act(() => ref.current?.blur());
+    expect(ref.current?.editor.isFocused()).toBe(false);
+    expect(ref.current?.getMarkdown()).toBe("");
+  });
+});
+
+describe("useEditorContext", () => {
+  it("throws a descriptive error when used outside any provider", () => {
+    function Broken() {
+      useEditorContext();
+      return null;
+    }
+    // Suppress the expected React error-boundary console noise for this assertion.
+    const spy = vi.spyOn(console, "error").mockImplementation(() => {});
+    try {
+      expect(() => render(<Broken />)).toThrow(/must be used within a <RichTextEditor>/);
+    } finally {
+      spy.mockRestore();
+    }
   });
 });

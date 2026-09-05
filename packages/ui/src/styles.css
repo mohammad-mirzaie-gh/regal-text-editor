@@ -148,7 +148,8 @@
 }
 
 .rte-toolbar-button:focus-visible,
-.rte-toolbar-dropdown:focus-visible,
+.rte-toolbar-dropdown-trigger:focus-visible,
+.rte-toolbar-dropdown-item:focus-visible,
 .rte-link-popover-input:focus-visible,
 .rte-find-replace-input:focus-visible {
   outline: 2px solid var(--editor-active-text);
@@ -328,37 +329,98 @@
   line-height: 1.55;
 }
 
-/* Toolbar dropdown (block style / text align) — `appearance: none` plus a
-   pure-CSS chevron (two rotated gradient triangles, no image asset) so it
-   reads as part of the toolbar instead of a bare OS control, the single
-   biggest "looks unfinished" cue a default `<select>` gives off. */
+/* Toolbar dropdown (block style / text align) — an icon-driven trigger
+   button plus a floating menu of icon+label rows, so it reads as part of
+   the icon-only toolbar instead of a bare OS `<select>` sitting inside it. */
 .rte-toolbar-dropdown {
-  appearance: none;
+  position: relative;
+  display: inline-flex;
+}
+
+.rte-toolbar-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   height: 32px;
-  padding: 0 22px 0 10px;
-  border: 1px solid transparent;
+  min-width: 32px;
+  padding: 0 8px;
+  border: none;
   border-radius: var(--editor-radius-sm);
-  background-color: transparent;
-  background-image:
-    linear-gradient(45deg, transparent 50%, var(--editor-text-secondary) 50%),
-    linear-gradient(135deg, var(--editor-text-secondary) 50%, transparent 50%);
-  background-position: right 10px top 55%, right 6px top 55%;
-  background-size: 5px 5px, 5px 5px;
-  background-repeat: no-repeat;
+  background: transparent;
   color: var(--editor-text);
   font: inherit;
   font-size: 13px;
   cursor: pointer;
-  transition: background-color 120ms ease;
+  transition: background-color 120ms ease, color 120ms ease;
 }
 
-.rte-toolbar-dropdown:hover:not(:disabled) {
-  background-color: var(--editor-hover);
+.rte-toolbar-dropdown-trigger:hover:not(:disabled) {
+  background: var(--editor-hover);
 }
 
-.rte-toolbar-dropdown:disabled {
+.rte-toolbar-dropdown-trigger[data-active="true"] {
+  background: var(--editor-active);
+  color: var(--editor-active-text);
+}
+
+.rte-toolbar-dropdown-trigger:disabled {
   opacity: 0.35;
   cursor: not-allowed;
+}
+
+.rte-toolbar-dropdown-trigger svg:last-child {
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.rte-toolbar-dropdown-label {
+  white-space: nowrap;
+}
+
+.rte-toolbar-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 168px;
+  padding: 4px;
+  background: var(--editor-toolbar-bg);
+  border: 1px solid var(--editor-border);
+  border-radius: var(--editor-radius);
+  box-shadow: var(--editor-shadow);
+}
+
+.rte-toolbar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  height: 32px;
+  padding: 0 10px;
+  border: none;
+  border-radius: var(--editor-radius-sm);
+  background: transparent;
+  color: var(--editor-text);
+  font: inherit;
+  font-size: 13px;
+  text-align: start;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.rte-toolbar-dropdown-item:hover {
+  background: var(--editor-hover);
+}
+
+.rte-toolbar-dropdown-item[data-active="true"] {
+  background: var(--editor-active);
+  color: var(--editor-active-text);
+}
+
+.rte-toolbar-dropdown-item svg {
+  flex-shrink: 0;
 }
 
 /* Bubble (selection-following) toolbar */

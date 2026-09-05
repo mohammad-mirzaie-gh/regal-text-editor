@@ -55,6 +55,28 @@ describe("insertBlocksAtSelection", () => {
     expect(cursorPoint.offset).toBe("middle two".length);
   });
 
+  it("returns a cursor point that stays valid after the inserted leaf merges into its same-marks neighbor", () => {
+    // Regression test: the single-text-block branch used to return a raw
+    // {path, offset} pointing at the just-inserted leaf's own index. When
+    // that leaf carries the same marks as its neighbor(s) (plain text next
+    // to plain text — the common case), normalizeDocument merges them into
+    // one leaf during dispatch, which happens *after* this point was
+    // computed — leaving a selection that points past the end of a now
+    // shorter children array and fails to clamp.
+    const doc = createDocument([createElement("paragraph", {}, [createText("hello")])]);
+    const tx = new Transaction(doc, null);
+    const range = normalizeSelection(cursor({ path: [0, 0], offset: 5 }));
+    const fragment = [createElement("paragraph", {}, [createText(" world")])];
+    const cursorPoint = insertBlocksAtSelection(tx, schema(), range, fragment);
+
+    const normalized = normalizeDocument(schema(), tx.doc);
+    // Must resolve without throwing against the post-merge document.
+    const resolved = getNodeAtPath(normalized, cursorPoint.path) as TextNode;
+    expect(resolved.text).toBe("hello world");
+    expect(cursorPoint.offset).toBe("hello world".length);
+    expect(normalized.children[0]).toMatchObject({ children: [{ text: "hello world" }] });
+  });
+
   it("replaces a selection before inserting", () => {
     const doc = createDocument([createElement("paragraph", {}, [createText("hello world")])]);
     const tx = new Transaction(doc, null);

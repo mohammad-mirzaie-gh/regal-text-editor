@@ -16,22 +16,25 @@ export const defaultToolbarItems: ToolbarItem[] = [
     type: "dropdown",
     label: "Paragraph style",
     placeholder: "Style",
+    icon: "paragraph",
+    showLabel: true,
     options: [
-      { command: "setParagraph", label: "Paragraph" },
-      { command: "setHeading1", label: "Heading 1" },
-      { command: "setHeading2", label: "Heading 2" },
-      { command: "setHeading3", label: "Heading 3" }
+      { command: "setParagraph", label: "Paragraph", icon: "paragraph" },
+      { command: "setHeading1", label: "Heading 1", icon: "heading1" },
+      { command: "setHeading2", label: "Heading 2", icon: "heading2" },
+      { command: "setHeading3", label: "Heading 3", icon: "heading3" }
     ]
   },
   {
     type: "dropdown",
     label: "Text align",
     placeholder: "Align",
+    icon: "alignStart",
     options: [
-      { command: "setTextAlign", args: ["start"], label: "Align start" },
-      { command: "setTextAlign", args: ["center"], label: "Align center" },
-      { command: "setTextAlign", args: ["end"], label: "Align end" },
-      { command: "setTextAlign", args: ["justify"], label: "Justify" }
+      { command: "setTextAlign", args: ["start"], label: "Align start", icon: "alignStart" },
+      { command: "setTextAlign", args: ["center"], label: "Align center", icon: "alignCenter" },
+      { command: "setTextAlign", args: ["end"], label: "Align end", icon: "alignEnd" },
+      { command: "setTextAlign", args: ["justify"], label: "Justify", icon: "alignJustify" }
     ]
   },
   { type: "separator" },
