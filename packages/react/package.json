@@ -1,11 +1,33 @@
 {
   "name": "@regal-text-editor/react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "description": "React bindings for the editor engine: <RichTextEditor>, useEditor, useEditorSelector, useCommand.",
+  "keywords": [
+    "rich-text-editor",
+    "wysiwyg",
+    "editor",
+    "contenteditable",
+    "regal-text-editor",
+    "react",
+    "react-hooks"
+  ],
+  "author": {
+    "name": "mohammad-mirzaie-gh",
+    "url": "https://github.com/mohammad-mirzaie-gh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammad-mirzaie-gh/regal-text-editor.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/mohammad-mirzaie-gh/regal-text-editor/issues"
+  },
+  "homepage": "https://regal-text-editor.vercel.app",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

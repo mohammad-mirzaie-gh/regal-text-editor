@@ -1,11 +1,35 @@
 {
   "name": "@regal-text-editor/plugin-lists",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "description": "Bullet, ordered and task lists with indent/outdent and Enter-to-split/exit behavior.",
+  "keywords": [
+    "rich-text-editor",
+    "wysiwyg",
+    "editor",
+    "contenteditable",
+    "regal-text-editor",
+    "lists",
+    "bullet-list",
+    "ordered-list",
+    "task-list"
+  ],
+  "author": {
+    "name": "mohammad-mirzaie-gh",
+    "url": "https://github.com/mohammad-mirzaie-gh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammad-mirzaie-gh/regal-text-editor.git",
+    "directory": "packages/plugin-lists"
+  },
+  "bugs": {
+    "url": "https://github.com/mohammad-mirzaie-gh/regal-text-editor/issues"
+  },
+  "homepage": "https://regal-text-editor.vercel.app",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

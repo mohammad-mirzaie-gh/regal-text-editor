@@ -1,11 +1,34 @@
 {
   "name": "@regal-text-editor/browser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "description": "Browser adapter (Layer 2): DOM rendering, model<->DOM selection mapping, keyboard/composition/clipboard event handling.",
+  "keywords": [
+    "rich-text-editor",
+    "wysiwyg",
+    "editor",
+    "contenteditable",
+    "regal-text-editor",
+    "dom",
+    "browser",
+    "selection"
+  ],
+  "author": {
+    "name": "mohammad-mirzaie-gh",
+    "url": "https://github.com/mohammad-mirzaie-gh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammad-mirzaie-gh/regal-text-editor.git",
+    "directory": "packages/browser"
+  },
+  "bugs": {
+    "url": "https://github.com/mohammad-mirzaie-gh/regal-text-editor/issues"
+  },
+  "homepage": "https://regal-text-editor.vercel.app",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",

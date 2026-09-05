@@ -1,11 +1,34 @@
 {
   "name": "@regal-text-editor/plugin-history",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
   "description": "Undo/redo commands and keyboard shortcuts wired to the engine's history manager.",
+  "keywords": [
+    "rich-text-editor",
+    "wysiwyg",
+    "editor",
+    "contenteditable",
+    "regal-text-editor",
+    "undo",
+    "redo",
+    "history"
+  ],
+  "author": {
+    "name": "mohammad-mirzaie-gh",
+    "url": "https://github.com/mohammad-mirzaie-gh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammad-mirzaie-gh/regal-text-editor.git",
+    "directory": "packages/plugin-history"
+  },
+  "bugs": {
+    "url": "https://github.com/mohammad-mirzaie-gh/regal-text-editor/issues"
+  },
+  "homepage": "https://regal-text-editor.vercel.app",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
