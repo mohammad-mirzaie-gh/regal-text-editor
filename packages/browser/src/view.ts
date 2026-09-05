@@ -17,7 +17,7 @@ import {
   type Editor,
   type Point,
   type Selection
-} from "@rte/core";
+} from "@regal-text-editor/core";
 import { collectDomTextNodes, domPointToModel, modelPointToDom } from "./dom/positions";
 import { shortcutCandidates } from "./keyboard/shortcuts";
 import { extractPastedBlocks } from "./clipboard/paste";

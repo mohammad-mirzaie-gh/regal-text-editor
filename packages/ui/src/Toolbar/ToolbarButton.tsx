@@ -1,5 +1,5 @@
-import { useCommand, useEditorContext } from "@rte/react";
-import { formatShortcutForDisplay } from "@rte/browser";
+import { useCommand, useEditorContext } from "@regal-text-editor/react";
+import { formatShortcutForDisplay } from "@regal-text-editor/browser";
 import { Icon } from "../Icon/Icon";
 import type { ToolbarButtonConfig } from "./types";
 

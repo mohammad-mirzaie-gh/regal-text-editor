@@ -9,13 +9,13 @@ import {
   type Command,
   type Editor,
   type Plugin
-} from "@rte/core";
+} from "@regal-text-editor/core";
 
 /** A block-level image, the same shape as `horizontalRule` in
  * `plugin-basic-blocks`: a void node sitting between text blocks, not an
  * inline atom inside one. The document model has no concept of an inline
  * void node (every inline child of a text block is assumed to be plain
- * text — see `@rte/browser`'s DOM<->model position mapping, which indexes
+ * text — see `@regal-text-editor/browser`'s DOM<->model position mapping, which indexes
  * text leaves 1:1), so an image that could sit *inside* a line of text
  * would need a NodeSelection concept and void-aware caret navigation this
  * editor doesn't have yet. Block-level avoids that gap entirely while

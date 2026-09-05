@@ -1,11 +1,11 @@
 {
-  "name": "@rte/ui",
+  "name": "@regal-text-editor/ui",
   "version": "0.1.0",
   "publishConfig": {
     "access": "public"
   },
   "license": "MIT",
-  "description": "Default React toolbar UI built on @rte/react's hooks \u2014 configurable, replaceable, not required to use the engine.",
+  "description": "Default React toolbar UI built on @regal-text-editor/react's hooks \u2014 configurable, replaceable, not required to use the engine.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -32,10 +32,10 @@
     "react-dom": ">=18.0.0"
   },
   "dependencies": {
-    "@rte/browser": "workspace:*",
-    "@rte/core": "workspace:*",
-    "@rte/plugin-link": "workspace:*",
-    "@rte/react": "workspace:*"
+    "@regal-text-editor/browser": "workspace:*",
+    "@regal-text-editor/core": "workspace:*",
+    "@regal-text-editor/plugin-link": "workspace:*",
+    "@regal-text-editor/react": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.3.17",

@@ -1,5 +1,5 @@
 import { createContext, useContext, type ReactNode } from "react";
-import type { Editor } from "@rte/core";
+import type { Editor } from "@regal-text-editor/core";
 
 export const EditorContext = createContext<Editor | null>(null);
 

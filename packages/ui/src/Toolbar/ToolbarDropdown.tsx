@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useEditorContext, useEditorSelector } from "@rte/react";
+import { useEditorContext, useEditorSelector } from "@regal-text-editor/react";
 import { Icon } from "../Icon/Icon";
 import type { ToolbarDropdownConfig } from "./types";
 

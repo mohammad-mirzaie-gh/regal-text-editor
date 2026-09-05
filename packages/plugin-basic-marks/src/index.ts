@@ -16,7 +16,7 @@ import {
   type Mark,
   type Plugin,
   type RangeSelection
-} from "@rte/core";
+} from "@regal-text-editor/core";
 
 export interface MarkDefinition {
   /** Node/mark type name used in the document model. */

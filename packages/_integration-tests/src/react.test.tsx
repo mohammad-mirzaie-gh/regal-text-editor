@@ -1,12 +1,12 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen, cleanup, act, fireEvent } from "@testing-library/react";
 import { createRef, StrictMode } from "react";
-import { createBaseSchema, type EditorDocument } from "@rte/core";
-import { EditorProvider, RichTextEditor, useEditor, useEditorContext, type EditorHandle } from "@rte/react";
-import { Toolbar, defaultToolbarItems } from "@rte/ui";
-import { BasicMarksPlugin } from "@rte/plugin-basic-marks";
-import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
-import { HistoryPlugin } from "@rte/plugin-history";
+import { createBaseSchema, type EditorDocument } from "@regal-text-editor/core";
+import { EditorProvider, RichTextEditor, useEditor, useEditorContext, type EditorHandle } from "@regal-text-editor/react";
+import { Toolbar, defaultToolbarItems } from "@regal-text-editor/ui";
+import { BasicMarksPlugin } from "@regal-text-editor/plugin-basic-marks";
+import { BasicBlocksPlugin } from "@regal-text-editor/plugin-basic-blocks";
+import { HistoryPlugin } from "@regal-text-editor/plugin-history";
 import { afterEach } from "vitest";
 
 afterEach(() => cleanup());

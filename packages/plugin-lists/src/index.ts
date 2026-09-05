@@ -18,7 +18,7 @@ import {
   type ElementNode,
   type Plugin,
   type Point
-} from "@rte/core";
+} from "@regal-text-editor/core";
 
 function findListItemPath(editor: Editor, path: number[]): number[] | undefined {
   for (let length = path.length; length >= 1; length -= 1) {

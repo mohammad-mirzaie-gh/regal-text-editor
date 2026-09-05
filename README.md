@@ -6,7 +6,7 @@ This is **not** a wrapper around ProseMirror/Slate/Lexical/TipTap/CKEditor. The 
 
 ## Status
 
-This is a working foundation covering phases 1–10 of the project plan (core engine → transactions/selection/commands → browser adapter → basic formatting → lists/headings/blockquotes → toolbar UI) plus a second pass adding links, images, code blocks, find & replace, and a richer UI layer (dropdowns, a selection-following bubble toolbar, link/image popovers), backed by 462 passing tests across 35 test files at ~93% statement coverage (dedicated unit tests for every package — core's model/schema/transforms/search/serialization/parsing, the browser adapter, every plugin, the React binding, and the `@rte/ui` components — plus jsdom integration tests that exercise real keyboard, IME composition, clipboard, selection-mapping, and React/UI behavior end to end). It is **not** a complete implementation of every feature described in the original brief — see [Self-audit](#self-audit) below for an honest, per-category breakdown of what's implemented, partial, or not started. Treat this as a solid, tested base to keep building on rather than a finished product.
+This is a working foundation covering phases 1–10 of the project plan (core engine → transactions/selection/commands → browser adapter → basic formatting → lists/headings/blockquotes → toolbar UI) plus a second pass adding links, images, code blocks, find & replace, and a richer UI layer (dropdowns, a selection-following bubble toolbar, link/image popovers), backed by 462 passing tests across 35 test files at ~93% statement coverage (dedicated unit tests for every package — core's model/schema/transforms/search/serialization/parsing, the browser adapter, every plugin, the React binding, and the `@regal-text-editor/ui` components — plus jsdom integration tests that exercise real keyboard, IME composition, clipboard, selection-mapping, and React/UI behavior end to end). It is **not** a complete implementation of every feature described in the original brief — see [Self-audit](#self-audit) below for an honest, per-category breakdown of what's implemented, partial, or not started. Treat this as a solid, tested base to keep building on rather than a finished product.
 
 ## Architecture
 
@@ -22,7 +22,7 @@ packages/
                           composition/clipboard/drag-drop events.
   react/                 Layer 5 — <RichTextEditor>, useEditor, useEditorSelector,
                           useCommand. The engine has no dependency on this package.
-  ui/                    Layer 3 — <Toolbar> and friends, built only on @rte/react's
+  ui/                    Layer 3 — <Toolbar> and friends, built only on @regal-text-editor/react's
                           public hooks (nothing here reaches into engine internals).
   plugin-basic-marks/    Layer 4 — bold, italic, underline, strikethrough, inline code.
   plugin-basic-blocks/   Layer 4 — paragraph, heading, blockquote, horizontal rule, text align.
@@ -36,7 +36,7 @@ packages/
                           (core + all plugins + browser adapter + React binding).
 ```
 
-Every package other than `core` and `browser` is optional — `core` never imports React or touches the DOM, `browser` never imports React, and `ui` only reaches the engine through `@rte/react`'s public hooks. A consumer can use the engine completely headless (`new Editor({...})`, no UI at all), pair it with a custom DOM adapter, or use the provided React binding and swap the toolbar for a custom one.
+Every package other than `core` and `browser` is optional — `core` never imports React or touches the DOM, `browser` never imports React, and `ui` only reaches the engine through `@regal-text-editor/react`'s public hooks. A consumer can use the engine completely headless (`new Editor({...})`, no UI at all), pair it with a custom DOM adapter, or use the provided React binding and swap the toolbar for a custom one.
 
 ## Getting started
 
@@ -46,19 +46,19 @@ pnpm -r --filter=./packages/** run build   # build every package (tsup, ESM + .d
 pnpm test                                   # run the full test suite (vitest, jsdom)
 ```
 
-Each package builds independently with `tsup` to ESM + type declarations (`pnpm --filter @rte/core run build`, etc). There is no CommonJS output — this is an ESM-only set of packages, per the "avoid unnecessary CJS" guidance.
+Each package builds independently with `tsup` to ESM + type declarations (`pnpm --filter @regal-text-editor/core run build`, etc). There is no CommonJS output — this is an ESM-only set of packages, per the "avoid unnecessary CJS" guidance.
 
 ## Quick usage
 
 ```tsx
-import { createBaseSchema } from "@rte/core";
-import { EditorProvider, RichTextEditor, useEditor } from "@rte/react";
-import { Toolbar, defaultToolbarItems } from "@rte/ui";
-import "@rte/ui/styles.css";
-import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
-import { BasicMarksPlugin } from "@rte/plugin-basic-marks";
-import { ListsPlugin } from "@rte/plugin-lists";
-import { HistoryPlugin } from "@rte/plugin-history";
+import { createBaseSchema } from "@regal-text-editor/core";
+import { EditorProvider, RichTextEditor, useEditor } from "@regal-text-editor/react";
+import { Toolbar, defaultToolbarItems } from "@regal-text-editor/ui";
+import "@regal-text-editor/ui/styles.css";
+import { BasicBlocksPlugin } from "@regal-text-editor/plugin-basic-blocks";
+import { BasicMarksPlugin } from "@regal-text-editor/plugin-basic-marks";
+import { ListsPlugin } from "@regal-text-editor/plugin-lists";
+import { HistoryPlugin } from "@regal-text-editor/plugin-history";
 
 function Editor() {
   const editor = useEditor({
@@ -82,9 +82,9 @@ function Editor() {
 Headless, no React:
 
 ```ts
-import { Editor, createBaseSchema, cursor } from "@rte/core";
-import { EditorView } from "@rte/browser";
-import { BasicMarksPlugin } from "@rte/plugin-basic-marks";
+import { Editor, createBaseSchema, cursor } from "@regal-text-editor/core";
+import { EditorView } from "@regal-text-editor/browser";
+import { BasicMarksPlugin } from "@regal-text-editor/plugin-basic-marks";
 
 const editor = new Editor({ schema: createBaseSchema(), plugins: [BasicMarksPlugin()] });
 const view = new EditorView({ editor, container: document.getElementById("editor")! });
@@ -93,7 +93,7 @@ editor.commands.execute(editor, "toggleBold");
 console.log(editor.getHTML(), editor.getMarkdown(), editor.getJSON());
 ```
 
-`@rte/ui` also exports a few more pieces beyond `<Toolbar>`: `<BubbleToolbar items={...} />` (a small formatting toolbar that follows the current selection, Medium/Notion-style), `<LinkButton />` / `<ImageButton />` (self-contained popovers that collect a URL and call `@rte/plugin-link`'s `setLink`/`unsetLink` or `@rte/plugin-image`'s `insertImage` — unlike a plain `<Toolbar>` item, these are coupled to that specific plugin's command names, documented on each component), `<FindReplacePanel />` (find/replace driven by `@rte/core`'s `findMatches`/`replaceMatch`/`replaceAllMatches`), and `ToolbarItem`'s `"dropdown"` variant (a native `<select>` for grouping related commands like heading levels or text alignment — see `defaultToolbarItems` for a working example of all of these together). The example app wires all of them up.
+`@regal-text-editor/ui` also exports a few more pieces beyond `<Toolbar>`: `<BubbleToolbar items={...} />` (a small formatting toolbar that follows the current selection, Medium/Notion-style), `<LinkButton />` / `<ImageButton />` (self-contained popovers that collect a URL and call `@regal-text-editor/plugin-link`'s `setLink`/`unsetLink` or `@regal-text-editor/plugin-image`'s `insertImage` — unlike a plain `<Toolbar>` item, these are coupled to that specific plugin's command names, documented on each component), `<FindReplacePanel />` (find/replace driven by `@regal-text-editor/core`'s `findMatches`/`replaceMatch`/`replaceAllMatches`), and `ToolbarItem`'s `"dropdown"` variant (a native `<select>` for grouping related commands like heading levels or text alignment — see `defaultToolbarItems` for a working example of all of these together). The example app wires all of them up.
 
 ## Core concepts
 
@@ -135,19 +135,19 @@ Honest status per category (IMPLEMENTED / PARTIALLY IMPLEMENTED / NOT IMPLEMENTE
 | Lists (bullet/ordered/task, nesting, indent/outdent) | IMPLEMENTED | Enter-to-split/exit, Tab/Shift-Tab; ordered-list custom start numbers; multi-item toggle-off is a documented simplification. |
 | Tables | NOT IMPLEMENTED | |
 | Images | IMPLEMENTED | Block-level only (own line, like `horizontalRule`), not an inline atom inside a line of text — the document model has no inline-void/NodeSelection concept yet, so this is a deliberate scope decision, not an oversight. URL-only (`insertImage(src, alt)`); no upload adapter. |
-| Links | IMPLEMENTED | `setLink(href)`/`unsetLink` mark commands, href sanitized at the command boundary (not just on HTML import/export, since a command-driven href never passes through the parser). `<LinkButton>` in `@rte/ui` provides the URL-collecting popover. |
+| Links | IMPLEMENTED | `setLink(href)`/`unsetLink` mark commands, href sanitized at the command boundary (not just on HTML import/export, since a command-driven href never passes through the parser). `<LinkButton>` in `@regal-text-editor/ui` provides the URL-collecting popover. |
 | Code blocks | IMPLEMENTED | Preformatted block (`toggleCodeBlock`); Enter inserts a literal line break instead of splitting, via a generic `code: true` NodeSpec flag the browser adapter reads (no per-plugin keymap collision). No syntax highlighting — `language` is recorded as an attribute for a future highlighter to key off, but nothing renders one yet. |
 | Mentions / bookmarks | NOT IMPLEMENTED | |
 | Markdown import/export | PARTIALLY | Export is real (generic registry-driven engine, GFM-ish output, tested for bold/italic/headings/lists/blockquote/task-items/links/images/code-fences); no Markdown *import* parser or markdown-shortcut autoformatting yet. |
 | HTML import/export | IMPLEMENTED | Generic registry-driven parser/serializer; sanitized; tested. |
 | Source-code mode | NOT IMPLEMENTED | |
-| Find & replace | IMPLEMENTED | `findMatches`/`replaceMatch`/`replaceAllMatches` in `@rte/core` (plain substring search, case-insensitive by default, never matches across a block boundary) plus `<FindReplacePanel>` in `@rte/ui`. Only the *current* match is visibly highlighted (via the editor's own selection) — there's no decoration layer yet for highlighting every match at once, the same way a browser's own Ctrl+F bar behaves without page-side highlighting. |
+| Find & replace | IMPLEMENTED | `findMatches`/`replaceMatch`/`replaceAllMatches` in `@regal-text-editor/core` (plain substring search, case-insensitive by default, never matches across a block boundary) plus `<FindReplacePanel>` in `@regal-text-editor/ui`. Only the *current* match is visibly highlighted (via the editor's own selection) — there's no decoration layer yet for highlighting every match at once, the same way a browser's own Ctrl+F bar behaves without page-side highlighting. |
 | Autosave | NOT IMPLEMENTED | (`editor.subscribe`/`editor.on("change", ...)` are the hooks a debounced-save integration would use.) |
 | Word/character count | PARTIALLY | Demonstrated in the example app via `editor.getText()`; no built-in limit-enforcement plugin. |
 | Read-only / disabled mode | IMPLEMENTED | `editor.setEditable`, reflected by the browser adapter and `<RichTextEditor editable={...}>`. |
 | Placeholder | IMPLEMENTED | `data-is-empty`/`data-placeholder` + CSS, with a brief fade-in transition. |
 | Toolbar UI | IMPLEMENTED | Button/separator/dropdown items driven entirely by data (`ToolbarItem[]`), plus a selection-following `<BubbleToolbar>`. The dropdown is a native `<select>` (full keyboard/a11y support for free) rather than a custom menu — the one trade-off is it can't `preventDefault` on open the way a button can, so the visual selection highlight blinks off while it's open (the underlying model selection is unaffected). |
-| Theming / visual customization | IMPLEMENTED | Every color/radius/shadow in `@rte/ui`'s `styles.css` is a CSS custom property, overridable per-app by redefining it on any ancestor. Two alternate presets ship as a working example of that (`data-rte-theme="notion"`, a warm paper-like palette; `data-rte-theme="midnight"`, a forced-dark moody palette distinct from the automatic `prefers-color-scheme` dark variant) — toggleable in the example app's header. |
+| Theming / visual customization | IMPLEMENTED | Every color/radius/shadow in `@regal-text-editor/ui`'s `styles.css` is a CSS custom property, overridable per-app by redefining it on any ancestor. Two alternate presets ship as a working example of that (`data-rte-theme="notion"`, a warm paper-like palette; `data-rte-theme="midnight"`, a forced-dark moody palette distinct from the automatic `prefers-color-scheme` dark variant) — toggleable in the example app's header. |
 | Accessibility | PARTIALLY | `role="textbox"`, `aria-multiline`, toolbar `role="toolbar"` + `aria-pressed`/`aria-label` per button, focus-visible styles (including a focus ring on the editable surface itself now), selection preserved across toolbar clicks (mousedown prevented). No shortcuts-help panel, not independently audited against WCAG 2.2 AA. |
 | RTL | PARTIALLY | CSS uses logical properties (`border-inline-start`, `padding-inline-start`) so it inherits `dir` correctly; text alignment uses logical `start`/`end` for the same reason. No dedicated RTL example/locale, no bidi cursor-movement testing. |
 | Localization | NOT IMPLEMENTED | UI strings (toolbar `label`s) are plain English constants, not yet routed through a locale table. |
@@ -155,7 +155,7 @@ Honest status per category (IMPLEMENTED / PARTIALLY IMPLEMENTED / NOT IMPLEMENTE
 | Slash commands / command palette | NOT IMPLEMENTED | |
 | Table of contents / auto-linking / smart typography / spellcheck integration | NOT IMPLEMENTED | (`spellcheck` is enabled on the editable root, which is the one integration point that exists.) |
 | React integration | IMPLEMENTED | Controlled+uncontrolled, stable editor identity across re-renders, granular `useSyncExternalStore`-based subscriptions. |
-| Testing | IMPLEMENTED for what exists | 462 tests across 35 files, ~93% statement coverage: dedicated unit tests per package (core's model/schema/content-matcher/transforms/normalization/history/editor/search/serialization/parsing/sanitize, every plugin, the browser adapter's positions/shortcuts/paste, the React hooks, the `@rte/ui` components), plus jsdom integration tests for the full plugin stack, real keyboard/IME/clipboard/selection behavior, and React/UI end-to-end flows. No Playwright/real-browser suite, no fuzz testing, no accessibility-automation run. |
+| Testing | IMPLEMENTED for what exists | 462 tests across 35 files, ~93% statement coverage: dedicated unit tests per package (core's model/schema/content-matcher/transforms/normalization/history/editor/search/serialization/parsing/sanitize, every plugin, the browser adapter's positions/shortcuts/paste, the React hooks, the `@regal-text-editor/ui` components), plus jsdom integration tests for the full plugin stack, real keyboard/IME/clipboard/selection behavior, and React/UI end-to-end flows. No Playwright/real-browser suite, no fuzz testing, no accessibility-automation run. |
 | Documentation | PARTIALLY | This README plus inline doc-comments on every public function/class; no generated API reference site, no per-package README. |
 
 ## Known architectural simplifications (by design, not oversights)

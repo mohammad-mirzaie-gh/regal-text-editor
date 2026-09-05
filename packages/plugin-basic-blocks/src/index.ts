@@ -19,7 +19,7 @@ import {
   type ElementNode,
   type HtmlParseContext,
   type Plugin
-} from "@rte/core";
+} from "@regal-text-editor/core";
 
 /** A `<p>`/`<h*>` whose only content is a single `<br>` is the empty-block
  * marker this plugin's own HTML export produces (see `htmlSerializers`

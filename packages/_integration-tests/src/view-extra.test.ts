@@ -1,9 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { Editor, createBaseSchema, cursor } from "@rte/core";
-import { EditorView } from "@rte/browser";
-import { BasicMarksPlugin } from "@rte/plugin-basic-marks";
-import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
-import { HistoryPlugin } from "@rte/plugin-history";
+import { Editor, createBaseSchema, cursor } from "@regal-text-editor/core";
+import { EditorView } from "@regal-text-editor/browser";
+import { BasicMarksPlugin } from "@regal-text-editor/plugin-basic-marks";
+import { BasicBlocksPlugin } from "@regal-text-editor/plugin-basic-blocks";
+import { HistoryPlugin } from "@regal-text-editor/plugin-history";
 
 function makeView(editable = true): { editor: Editor; view: EditorView; container: HTMLElement } {
   const editor = new Editor({

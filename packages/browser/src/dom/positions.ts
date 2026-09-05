@@ -1,4 +1,4 @@
-import { getNodeAtPath, isEqualPath, textNodes, type Editor, type Point } from "@rte/core";
+import { getNodeAtPath, isEqualPath, textNodes, type Editor, type Point } from "@regal-text-editor/core";
 
 /** All DOM Text nodes under `root`, in document order. Because the
  * container is rendered straight from `editor.getHTML()`, this list is in

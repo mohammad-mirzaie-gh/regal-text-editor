@@ -1,5 +1,5 @@
 import { useCallback, useSyncExternalStore } from "react";
-import type { Editor } from "@rte/core";
+import type { Editor } from "@regal-text-editor/core";
 
 /**
  * Subscribes to the editor's coarse "something changed" signal and derives

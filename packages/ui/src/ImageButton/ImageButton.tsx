@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { useEditorContext, useEditorSelector } from "@rte/react";
+import { useEditorContext, useEditorSelector } from "@regal-text-editor/react";
 import { Icon } from "../Icon/Icon";
 
 /**
- * Coupled to `@rte/plugin-image`'s `insertImage(src, alt?)` command, for
- * the same reason `LinkButton` is coupled to `@rte/plugin-link` — inserting
+ * Coupled to `@regal-text-editor/plugin-image`'s `insertImage(src, alt?)` command, for
+ * the same reason `LinkButton` is coupled to `@regal-text-editor/plugin-link` — inserting
  * an image needs a URL from the user, which a generic toolbar button can't
  * collect on its own. No upload/file-picker support (see the plugin's own
  * docstring): this only ever inserts a URL the user typed or pasted.

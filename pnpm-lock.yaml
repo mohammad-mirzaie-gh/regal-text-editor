@@ -35,37 +35,37 @@ importers:
 
   packages/_integration-tests:
     dependencies:
-      '@rte/browser':
+      '@regal-text-editor/browser':
         specifier: workspace:*
         version: link:../browser
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
-      '@rte/plugin-basic-blocks':
+      '@regal-text-editor/plugin-basic-blocks':
         specifier: workspace:*
         version: link:../plugin-basic-blocks
-      '@rte/plugin-basic-marks':
+      '@regal-text-editor/plugin-basic-marks':
         specifier: workspace:*
         version: link:../plugin-basic-marks
-      '@rte/plugin-code-block':
+      '@regal-text-editor/plugin-code-block':
         specifier: workspace:*
         version: link:../plugin-code-block
-      '@rte/plugin-history':
+      '@regal-text-editor/plugin-history':
         specifier: workspace:*
         version: link:../plugin-history
-      '@rte/plugin-image':
+      '@regal-text-editor/plugin-image':
         specifier: workspace:*
         version: link:../plugin-image
-      '@rte/plugin-link':
+      '@regal-text-editor/plugin-link':
         specifier: workspace:*
         version: link:../plugin-link
-      '@rte/plugin-lists':
+      '@regal-text-editor/plugin-lists':
         specifier: workspace:*
         version: link:../plugin-lists
-      '@rte/react':
+      '@regal-text-editor/react':
         specifier: workspace:*
         version: link:../react
-      '@rte/ui':
+      '@regal-text-editor/ui':
         specifier: workspace:*
         version: link:../ui
     devDependencies:
@@ -90,7 +90,7 @@ importers:
 
   packages/browser:
     dependencies:
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -112,11 +112,11 @@ importers:
 
   packages/plugin-basic-blocks:
     dependencies:
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@rte/plugin-code-block':
+      '@regal-text-editor/plugin-code-block':
         specifier: workspace:*
         version: link:../plugin-code-block
       tsup:
@@ -128,11 +128,11 @@ importers:
 
   packages/plugin-basic-marks:
     dependencies:
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@rte/plugin-basic-blocks':
+      '@regal-text-editor/plugin-basic-blocks':
         specifier: workspace:*
         version: link:../plugin-basic-blocks
       tsup:
@@ -144,11 +144,11 @@ importers:
 
   packages/plugin-code-block:
     dependencies:
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@rte/plugin-basic-blocks':
+      '@regal-text-editor/plugin-basic-blocks':
         specifier: workspace:*
         version: link:../plugin-basic-blocks
       tsup:
@@ -160,7 +160,7 @@ importers:
 
   packages/plugin-history:
     dependencies:
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -173,11 +173,11 @@ importers:
 
   packages/plugin-image:
     dependencies:
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@rte/plugin-basic-blocks':
+      '@regal-text-editor/plugin-basic-blocks':
         specifier: workspace:*
         version: link:../plugin-basic-blocks
       tsup:
@@ -189,11 +189,11 @@ importers:
 
   packages/plugin-link:
     dependencies:
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@rte/plugin-basic-blocks':
+      '@regal-text-editor/plugin-basic-blocks':
         specifier: workspace:*
         version: link:../plugin-basic-blocks
       tsup:
@@ -205,11 +205,11 @@ importers:
 
   packages/plugin-lists:
     dependencies:
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
-      '@rte/plugin-basic-blocks':
+      '@regal-text-editor/plugin-basic-blocks':
         specifier: workspace:*
         version: link:../plugin-basic-blocks
       tsup:
@@ -221,10 +221,10 @@ importers:
 
   packages/react:
     dependencies:
-      '@rte/browser':
+      '@regal-text-editor/browser':
         specifier: workspace:*
         version: link:../browser
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -249,16 +249,16 @@ importers:
 
   packages/ui:
     dependencies:
-      '@rte/browser':
+      '@regal-text-editor/browser':
         specifier: workspace:*
         version: link:../browser
-      '@rte/core':
+      '@regal-text-editor/core':
         specifier: workspace:*
         version: link:../core
-      '@rte/plugin-link':
+      '@regal-text-editor/plugin-link':
         specifier: workspace:*
         version: link:../plugin-link
-      '@rte/react':
+      '@regal-text-editor/react':
         specifier: workspace:*
         version: link:../react
     devDependencies:

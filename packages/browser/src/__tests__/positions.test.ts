@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { Editor, createBaseSchema, createDocument, createElement, createText } from "@rte/core";
+import { Editor, createBaseSchema, createDocument, createElement, createText } from "@regal-text-editor/core";
 import { collectDomTextNodes, domPointToModel, modelPointToDom } from "../dom/positions";
 
-/** @rte/browser is framework/plugin-agnostic, so its own tests build
+/** @regal-text-editor/browser is framework/plugin-agnostic, so its own tests build
  * documents and a minimal paragraph HTML serializer directly through
- * @rte/core's registries rather than pulling in @rte/plugin-basic-blocks. */
+ * @regal-text-editor/core's registries rather than pulling in @regal-text-editor/plugin-basic-blocks. */
 function makeEditor(paragraphs: string[]): Editor {
   const editor = new Editor({ schema: createBaseSchema(), plugins: [] });
   editor.htmlRegistry.registerNode("paragraph", (_node, children) => `<p>${children.join("") || "<br>"}</p>`);

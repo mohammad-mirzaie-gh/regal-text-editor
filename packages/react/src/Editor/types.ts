@@ -1,4 +1,4 @@
-import type { Editor, EditorConfig, EditorDocument } from "@rte/core";
+import type { Editor, EditorConfig, EditorDocument } from "@regal-text-editor/core";
 
 export interface EditorHandle {
   editor: Editor;

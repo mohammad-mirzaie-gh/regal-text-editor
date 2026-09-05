@@ -21,7 +21,7 @@ import {
   type Plugin,
   type RangeSelection,
   type Transaction
-} from "@rte/core";
+} from "@regal-text-editor/core";
 
 const MARK_TYPE = "link";
 
@@ -174,7 +174,7 @@ export function getActiveLinkHref(editor: Editor): string | null {
 /** Link mark: schema (href/title attrs), `setLink`/`unsetLink` commands,
  * and HTML/Markdown import/export. There is no default keyboard shortcut —
  * inserting a link needs a URL from the user, which only a UI (see
- * `@rte/ui`'s link popover) can collect. */
+ * `@regal-text-editor/ui`'s link popover) can collect. */
 export function LinkPlugin(): Plugin {
   return {
     name: "link",

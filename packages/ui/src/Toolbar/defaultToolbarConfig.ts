@@ -1,13 +1,13 @@
 import type { ToolbarItem } from "./types";
 
 /** Default toolbar wired to the commands the standard plugin set
- * (@rte/plugin-history, plugin-basic-blocks, plugin-basic-marks,
+ * (@regal-text-editor/plugin-history, plugin-basic-blocks, plugin-basic-marks,
  * plugin-lists, plugin-code-block) registers. Purely data — pass your own
  * array of `ToolbarItem` to `<Toolbar items={...} />` to customize or omit
  * anything. Link and image aren't here: they need a URL from the user, so
  * they're the dedicated `<LinkButton>`/`<ImageButton>` components instead
- * — render those alongside `<Toolbar>` when using `@rte/plugin-link`/
- * `@rte/plugin-image`. */
+ * — render those alongside `<Toolbar>` when using `@regal-text-editor/plugin-link`/
+ * `@regal-text-editor/plugin-image`. */
 export const defaultToolbarItems: ToolbarItem[] = [
   { type: "button", command: "undo", icon: "undo", label: "Undo", shortcut: "Mod-z" },
   { type: "button", command: "redo", icon: "redo", label: "Redo", shortcut: "Mod-Shift-z" },

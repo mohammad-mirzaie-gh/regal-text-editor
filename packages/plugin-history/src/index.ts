@@ -1,4 +1,4 @@
-import type { Command, Editor, Plugin } from "@rte/core";
+import type { Command, Editor, Plugin } from "@regal-text-editor/core";
 
 const undoCommand: Command = {
   execute: (editor: Editor) => editor.undo(),

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Editor } from "@rte/core";
-import { useEditorSelector } from "@rte/react";
+import type { Editor } from "@regal-text-editor/core";
+import { useEditorSelector } from "@regal-text-editor/react";
 
 /**
  * The viewport-relative bounding rect of the current *non-collapsed*

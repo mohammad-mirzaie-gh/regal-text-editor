@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { useEditorContext, useEditorSelector } from "@rte/react";
-import { getActiveLinkHref } from "@rte/plugin-link";
+import { useEditorContext, useEditorSelector } from "@regal-text-editor/react";
+import { getActiveLinkHref } from "@regal-text-editor/plugin-link";
 import { Icon } from "../Icon/Icon";
 
 /**
  * Unlike `ToolbarButton`, this is coupled to a specific plugin's command
- * contract — `@rte/plugin-link`'s `setLink(href)` / `unsetLink()` commands
+ * contract — `@regal-text-editor/plugin-link`'s `setLink(href)` / `unsetLink()` commands
  * and its `getActiveLinkHref` helper — because collecting a URL from the
  * user needs a real input, which a generic `{command, icon, label}`
  * config can't express. It's an opt-in, "batteries included" component,

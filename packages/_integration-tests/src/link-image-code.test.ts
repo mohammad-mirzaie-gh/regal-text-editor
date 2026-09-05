@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { Editor, createBaseSchema, cursor, type RangeSelection } from "@rte/core";
-import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
-import { LinkPlugin, getActiveLinkHref } from "@rte/plugin-link";
-import { ImagePlugin } from "@rte/plugin-image";
-import { CodeBlockPlugin } from "@rte/plugin-code-block";
-import { EditorView } from "@rte/browser";
+import { Editor, createBaseSchema, cursor, type RangeSelection } from "@regal-text-editor/core";
+import { BasicBlocksPlugin } from "@regal-text-editor/plugin-basic-blocks";
+import { LinkPlugin, getActiveLinkHref } from "@regal-text-editor/plugin-link";
+import { ImagePlugin } from "@regal-text-editor/plugin-image";
+import { CodeBlockPlugin } from "@regal-text-editor/plugin-code-block";
+import { EditorView } from "@regal-text-editor/browser";
 
 function makeEditor(): Editor {
   return new Editor({

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Editor, type EditorConfig } from "@rte/core";
+import { Editor, type EditorConfig } from "@regal-text-editor/core";
 
 /**
  * Creates and owns an `Editor` instance for the lifetime of the component.

@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { Editor, createBaseSchema, cursor } from "@rte/core";
-import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
+import { Editor, createBaseSchema, cursor } from "@regal-text-editor/core";
+import { BasicBlocksPlugin } from "@regal-text-editor/plugin-basic-blocks";
 import { ListsPlugin } from "../index";
 
 // A list item's content is bare "block+", and a paragraph is the natural,
-// near-universal case — @rte/plugin-basic-blocks supplies the paragraph
+// near-universal case — @regal-text-editor/plugin-basic-blocks supplies the paragraph
 // HTML/Markdown serializers these tests render through, the same pairing
 // the example app and _integration-tests use.
 function makeEditor(): Editor {

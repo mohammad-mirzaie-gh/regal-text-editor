@@ -9,7 +9,7 @@ import {
   type Command,
   type Editor,
   type Plugin
-} from "@rte/core";
+} from "@regal-text-editor/core";
 
 const NODE_TYPE = "codeBlock";
 
@@ -62,7 +62,7 @@ function extractPreformattedText(el: Element): string {
 
 /** A preformatted code block: schema (with `code: true`, so Enter inserts a
  * line break instead of splitting the block — see the `code` flag on
- * `NodeSpec` and its handling in `@rte/browser`'s `EditorView`), a
+ * `NodeSpec` and its handling in `@regal-text-editor/browser`'s `EditorView`), a
  * `toggleCodeBlock` command, and HTML/Markdown import/export. No syntax
  * highlighting — `language` is recorded as an attribute for a future
  * highlighter to key off, but nothing in this plugin renders one. */

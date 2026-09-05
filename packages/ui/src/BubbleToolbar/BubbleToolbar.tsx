@@ -1,4 +1,4 @@
-import { useEditorContext } from "@rte/react";
+import { useEditorContext } from "@regal-text-editor/react";
 import { Toolbar } from "../Toolbar/Toolbar";
 import type { ToolbarItem } from "../Toolbar/types";
 import { useSelectionRect } from "../hooks/useSelectionRect";

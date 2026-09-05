@@ -1,20 +1,20 @@
 {
-  "name": "@rte/integration-tests",
+  "name": "@regal-text-editor/integration-tests",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "dependencies": {
-    "@rte/browser": "workspace:*",
-    "@rte/core": "workspace:*",
-    "@rte/plugin-basic-blocks": "workspace:*",
-    "@rte/plugin-basic-marks": "workspace:*",
-    "@rte/plugin-code-block": "workspace:*",
-    "@rte/plugin-history": "workspace:*",
-    "@rte/plugin-image": "workspace:*",
-    "@rte/plugin-link": "workspace:*",
-    "@rte/plugin-lists": "workspace:*",
-    "@rte/react": "workspace:*",
-    "@rte/ui": "workspace:*"
+    "@regal-text-editor/browser": "workspace:*",
+    "@regal-text-editor/core": "workspace:*",
+    "@regal-text-editor/plugin-basic-blocks": "workspace:*",
+    "@regal-text-editor/plugin-basic-marks": "workspace:*",
+    "@regal-text-editor/plugin-code-block": "workspace:*",
+    "@regal-text-editor/plugin-history": "workspace:*",
+    "@regal-text-editor/plugin-image": "workspace:*",
+    "@regal-text-editor/plugin-link": "workspace:*",
+    "@regal-text-editor/plugin-lists": "workspace:*",
+    "@regal-text-editor/react": "workspace:*",
+    "@regal-text-editor/ui": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/react": "^16.1.0",

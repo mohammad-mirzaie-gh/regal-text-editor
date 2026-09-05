@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
-import { Editor, createBaseSchema, type EditorDocument } from "@rte/core";
-import { EditorView } from "@rte/browser";
+import { Editor, createBaseSchema, type EditorDocument } from "@regal-text-editor/core";
+import { EditorView } from "@regal-text-editor/browser";
 import { EditorContext } from "../context/EditorContext";
 import { useEditorSelector } from "../hooks/useEditorSelector";
 import type { EditorHandle, RichTextEditorProps } from "./types";

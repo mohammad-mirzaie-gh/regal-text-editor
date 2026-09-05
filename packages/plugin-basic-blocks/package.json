@@ -1,5 +1,5 @@
 {
-  "name": "@rte/plugin-basic-blocks",
+  "name": "@regal-text-editor/plugin-basic-blocks",
   "version": "0.1.0",
   "publishConfig": {
     "access": "public"
@@ -25,10 +25,10 @@
     "dev": "tsup src/index.ts --format esm --dts --sourcemap --watch"
   },
   "dependencies": {
-    "@rte/core": "workspace:*"
+    "@regal-text-editor/core": "workspace:*"
   },
   "devDependencies": {
-    "@rte/plugin-code-block": "workspace:*",
+    "@regal-text-editor/plugin-code-block": "workspace:*",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2"
   }

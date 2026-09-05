@@ -6,11 +6,11 @@ import {
   insertTextAtSelection,
   normalizeSelection,
   type Point
-} from "@rte/core";
-import { BasicMarksPlugin } from "@rte/plugin-basic-marks";
-import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
-import { ListsPlugin } from "@rte/plugin-lists";
-import { HistoryPlugin } from "@rte/plugin-history";
+} from "@regal-text-editor/core";
+import { BasicMarksPlugin } from "@regal-text-editor/plugin-basic-marks";
+import { BasicBlocksPlugin } from "@regal-text-editor/plugin-basic-blocks";
+import { ListsPlugin } from "@regal-text-editor/plugin-lists";
+import { HistoryPlugin } from "@regal-text-editor/plugin-history";
 
 function makeEditor(): Editor {
   return new Editor({

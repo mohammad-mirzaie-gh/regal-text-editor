@@ -1,4 +1,4 @@
-import { createElement, createText, parseHTML, type Editor, type ElementNode } from "@rte/core";
+import { createElement, createText, parseHTML, type Editor, type ElementNode } from "@regal-text-editor/core";
 
 function plainTextToBlocks(editor: Editor, text: string): ElementNode[] {
   const normalized = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");

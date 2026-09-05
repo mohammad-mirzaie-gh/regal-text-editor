@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Editor, createBaseSchema } from "@rte/core";
+import { Editor, createBaseSchema } from "@regal-text-editor/core";
 import { extractPastedBlocks } from "../clipboard/paste";
 
 function makeDataTransfer(data: Record<string, string>): DataTransfer {

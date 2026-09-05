@@ -1,5 +1,5 @@
 {
-  "name": "@rte/browser",
+  "name": "@regal-text-editor/browser",
   "version": "0.1.0",
   "publishConfig": {
     "access": "public"
@@ -25,7 +25,7 @@
     "dev": "tsup src/index.ts --format esm --dts --sourcemap --watch"
   },
   "dependencies": {
-    "@rte/core": "workspace:*"
+    "@regal-text-editor/core": "workspace:*"
   },
   "devDependencies": {
     "tsup": "^8.3.5",

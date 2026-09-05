@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { cursor, findMatches, replaceAllMatches, replaceMatch, type SearchMatch } from "@rte/core";
-import { useEditorContext, useEditorSelector } from "@rte/react";
+import { cursor, findMatches, replaceAllMatches, replaceMatch, type SearchMatch } from "@regal-text-editor/core";
+import { useEditorContext, useEditorSelector } from "@regal-text-editor/react";
 import { Icon } from "../Icon/Icon";
 
 export interface FindReplacePanelProps {

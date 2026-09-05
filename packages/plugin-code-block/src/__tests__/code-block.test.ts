@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Editor, createBaseSchema, cursor } from "@rte/core";
-import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
+import { Editor, createBaseSchema, cursor } from "@regal-text-editor/core";
+import { BasicBlocksPlugin } from "@regal-text-editor/plugin-basic-blocks";
 import { CodeBlockPlugin } from "../index";
 
 function makeEditor(): Editor {

@@ -1,14 +1,14 @@
 import { describe, expect, it, afterEach, vi } from "vitest";
 import type { ReactNode } from "react";
 import { render, screen, cleanup, act, fireEvent } from "@testing-library/react";
-import { createBaseSchema } from "@rte/core";
-import { EditorProvider, RichTextEditor, useEditor } from "@rte/react";
-import { LinkButton, ImageButton, FindReplacePanel, BubbleToolbar, Toolbar, defaultToolbarItems } from "@rte/ui";
-import { BasicBlocksPlugin } from "@rte/plugin-basic-blocks";
-import { BasicMarksPlugin } from "@rte/plugin-basic-marks";
-import { LinkPlugin } from "@rte/plugin-link";
-import { ImagePlugin } from "@rte/plugin-image";
-import { HistoryPlugin } from "@rte/plugin-history";
+import { createBaseSchema } from "@regal-text-editor/core";
+import { EditorProvider, RichTextEditor, useEditor } from "@regal-text-editor/react";
+import { LinkButton, ImageButton, FindReplacePanel, BubbleToolbar, Toolbar, defaultToolbarItems } from "@regal-text-editor/ui";
+import { BasicBlocksPlugin } from "@regal-text-editor/plugin-basic-blocks";
+import { BasicMarksPlugin } from "@regal-text-editor/plugin-basic-marks";
+import { LinkPlugin } from "@regal-text-editor/plugin-link";
+import { ImagePlugin } from "@regal-text-editor/plugin-image";
+import { HistoryPlugin } from "@regal-text-editor/plugin-history";
 
 afterEach(() => cleanup());
 
